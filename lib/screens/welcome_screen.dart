@@ -11,7 +11,21 @@ class WelcomeScreen extends StatefulWidget {
   _WelcomeScreenState createState() => _WelcomeScreenState();
 }
 
-class _WelcomeScreenState extends State<WelcomeScreen> {
+// class act as a ticker for a single animation
+class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProviderStateMixin{
+
+  late AnimationController controller;
+
+  @override
+  void initState() {
+    super.initState();
+
+    controller= AnimationController(
+      vsync:
+      duration: Duration(seconds: 1),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,9 +38,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           children: <Widget>[
             Row(
               children: <Widget>[
-                SizedBox(
-                  height: 60.0,
-                  child: Image.asset('images/logo.png'),
+                Hero(
+                  tag: 'logo',
+                  child: SizedBox(
+                    height: 60.0,
+                    child: Image.asset('images/logo.png'),
+                  ),
                 ),
                 const Text(
                   'Flash Chat',
