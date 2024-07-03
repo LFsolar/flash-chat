@@ -21,9 +21,19 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
     super.initState();
 
     controller= AnimationController(
-      vsync:
-      duration: Duration(seconds: 1),
+      vsync: this, //specify what is going to act as the ticker
+      duration: Duration(seconds: 1), // how long animation runs for
+      upperBound: 100,
     );
+
+    controller.forward();
+
+    controller.addListener(() {
+      setState(() {
+
+      });
+      print(controller.value);
+    });
   }
 
   @override
@@ -41,13 +51,15 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
                 Hero(
                   tag: 'logo',
                   child: SizedBox(
-                    height: 60.0,
+                    height: controller.value,
                     child: Image.asset('images/logo.png'),
                   ),
                 ),
-                const Text(
+                Text(
+                  // '${controller.value.toInt()}%',
                   'Flash Chat',
                   style: TextStyle(
+                    color: Colors.black45,
                     fontSize: 45.0,
                     fontWeight: FontWeight.w900,
                   ),
