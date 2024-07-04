@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import '../screens/registration_screen.dart';
 
 class RoundedButton extends StatelessWidget {
 
-  Color color;
-  String btnTitle;
-  void Function() callback;
+  final Color color;
+  final String btnTitle;
+  final void Function() callback;
 
-  RoundedButton(this.color, this.btnTitle, @required this.callback);
+  const RoundedButton(this.color, this.btnTitle, this.callback, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +23,7 @@ class RoundedButton extends StatelessWidget {
           height: 42.0,
           child: Text(
             btnTitle,
+            style: const TextStyle(color: Colors.white),
           ),
         ),
       ),
