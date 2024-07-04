@@ -14,7 +14,9 @@ class WelcomeScreen extends StatefulWidget {
 // class act as a ticker for a single animation
 class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProviderStateMixin{
 
-  late AnimationController controller;
+  late AnimationController controller; // important to dispose b/c resource intensive
+  // custom animation
+  late Animation animation;
 
   @override
   void initState() {
@@ -23,8 +25,20 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
     controller= AnimationController(
       vsync: this, //specify what is going to act as the ticker
       duration: Duration(seconds: 1), // how long animation runs for
-      upperBound: 100,
+      // upperBound: 100,
     );
+
+    animation = ColorTween(begin: Colors.blueGrey, end: Colors.white).animate(controller);
+
+    // bounces animation
+    // animation = CurvedAnimation(parent: controller, curve: Curves.decelerate);
+    // animation.addStatusListener((status) {
+    //   if (status == AnimationStatus.completed) {
+    //     controller.reverse(from: 1.0);
+    //   } else if (status == AnimationStatus.dismissed) {
+    //     controller.forward();
+    //   }
+    // });
 
     controller.forward();
 
@@ -32,14 +46,20 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
       setState(() {
 
       });
-      print(controller.value);
+      print(animation.value);
     });
+  }
+
+  @override
+  void dispoae() {
+    controller.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: animation.value,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24.0),
         child: Column(
@@ -51,7 +71,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
                 Hero(
                   tag: 'logo',
                   child: SizedBox(
-                    height: controller.value,
+                    height: 60,
                     child: Image.asset('images/logo.png'),
                   ),
                 ),
